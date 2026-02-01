@@ -1,0 +1,272 @@
+// Prisma Schema for Deepak Malviya Portfolio
+// Database: PostgreSQL via Supabase
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// ==================== USER & AUTH ====================
+
+model User {
+  id        String   @id @default(cuid())
+  clerkId   String   @unique
+  email     String   @unique
+  name      String
+  role      Role     @default(MANAGER)
+  avatar    String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  content   Content[]
+  
+  @@index([clerkId])
+  @@index([email])
+}
+
+enum Role {
+  OWNER
+  MANAGER
+}
+
+// ==================== PERSONAS ====================
+
+model Persona {
+  id          String    @id @default(cuid())
+  slug        String    @unique // "developer", "traveler", "poet", "cook"
+  name        String    // Display name
+  nameHindi   String?   // Hindi name (for poet)
+  icon        String?   // Emoji or Lucide icon name
+  tagline     String    // Short description
+  taglineHindi String?  // Hindi tagline
+  description String?   @db.Text // Full intro
+  heroImage   String?   // Cloudinary URL
+  accentColor String?   // Hex color for this persona
+  order       Int       @default(0)
+  isVisible   Boolean   @default(true)
+  seoTitle    String?
+  seoDesc     String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  
+  sections    Section[]
+  content     Content[]
+  skills      Skill[]
+  
+  @@index([slug])
+  @@index([isVisible])
+}
+
+// ==================== DYNAMIC SECTIONS ====================
+
+model Section {
+  id        String      @id @default(cuid())
+  personaId String
+  persona   Persona     @relation(fields: [personaId], references: [id], onDelete: Cascade)
+  type      SectionType
+  title     String?
+  titleHindi String?
+  content   Json?       // Flexible content storage
+  order     Int         @default(0)
+  isVisible Boolean     @default(true)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  
+  @@index([personaId])
+  @@index([type])
+}
+
+enum SectionType {
+  HERO
+  ABOUT
+  SKILLS
+  GALLERY
+  CONTACT_CTA
+  STATS
+  CUSTOM
+}
+
+// ==================== SKILLS (Developer) ====================
+
+model Skill {
+  id        String   @id @default(cuid())
+  personaId String
+  persona   Persona  @relation(fields: [personaId], references: [id], onDelete: Cascade)
+  name      String
+  category  String   // "Languages", "Frameworks", "Tools", "Cloud"
+  icon      String?  // Icon name or URL
+  level     Int?     // 1-5 proficiency
+  order     Int      @default(0)
+  isVisible Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@index([personaId])
+  @@index([category])
+}
+
+// ==================== CONTENT ====================
+
+model Content {
+  id          String      @id @default(cuid())
+  type        ContentType
+  title       String
+  titleHindi  String?     // For poems
+  slug        String
+  body        String      @db.Text
+  bodyHindi   String?     @db.Text // For poems
+  excerpt     String?
+  excerptHindi String?
+  status      Status      @default(DRAFT)
+  
+  personaId   String
+  persona     Persona     @relation(fields: [personaId], references: [id], onDelete: Cascade)
+  authorId    String
+  author      User        @relation(fields: [authorId], references: [id])
+  
+  featuredImg String?     // Cloudinary URL
+  publishedAt DateTime?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  
+  // Type-specific metadata stored as JSON
+  metadata    Json?
+  
+  // Relations
+  media       Media[]
+  categories  CategoriesOnContent[]
+  tags        TagsOnContent[]
+  
+  @@unique([personaId, slug])
+  @@index([personaId])
+  @@index([type])
+  @@index([status])
+  @@index([publishedAt])
+}
+
+enum ContentType {
+  BLOG_POST
+  PROJECT
+  POEM
+  RECIPE
+  TRAVEL_DIARY
+  GALLERY_ALBUM
+}
+
+enum Status {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+// ==================== MEDIA ====================
+
+model Media {
+  id          String    @id @default(cuid())
+  url         String    // Cloudinary URL
+  publicId    String?   // Cloudinary public ID
+  altText     String?
+  altTextHindi String?
+  caption     String?
+  captionHindi String?
+  type        MediaType
+  width       Int?
+  height      Int?
+  size        Int?      // bytes
+  
+  contentId   String?
+  content     Content?  @relation(fields: [contentId], references: [id], onDelete: SetNull)
+  
+  createdAt   DateTime  @default(now())
+  
+  @@index([contentId])
+  @@index([type])
+}
+
+enum MediaType {
+  IMAGE
+  VIDEO
+  AUDIO
+  DOCUMENT
+}
+
+// ==================== TAXONOMY ====================
+
+model Category {
+  id       String                @id @default(cuid())
+  name     String
+  nameHindi String?
+  slug     String                @unique
+  content  CategoriesOnContent[]
+  
+  @@index([slug])
+}
+
+model Tag {
+  id      String          @id @default(cuid())
+  name    String          @unique
+  content TagsOnContent[]
+  
+  @@index([name])
+}
+
+// Junction tables for many-to-many
+model CategoriesOnContent {
+  contentId  String
+  content    Content  @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  
+  @@id([contentId, categoryId])
+}
+
+model TagsOnContent {
+  contentId String
+  content   Content @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  tagId     String
+  tag       Tag     @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  
+  @@id([contentId, tagId])
+}
+
+// ==================== SITE SETTINGS ====================
+
+model Setting {
+  key       String   @id
+  value     Json
+  updatedAt DateTime @updatedAt
+}
+
+// ==================== SOCIAL LINKS ====================
+
+model SocialLink {
+  id        String   @id @default(cuid())
+  platform  String   // "github", "linkedin", "twitter", etc.
+  url       String
+  icon      String?
+  order     Int      @default(0)
+  isVisible Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@index([platform])
+}
+
+// ==================== CONTACT SUBMISSIONS ====================
+
+model ContactSubmission {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  subject   String?
+  message   String   @db.Text
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+  
+  @@index([isRead])
+  @@index([createdAt])
+}
