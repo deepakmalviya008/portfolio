@@ -1,3 +1,5 @@
+// Revalidate every 60 seconds
+export const revalidate = 60;
 import { Metadata } from 'next';
 import { prisma } from '@/lib/prisma';
 import { Header } from '@/components/layout/header';
@@ -14,9 +16,6 @@ export const metadata: Metadata = {
   title: 'Deepak Malviya | Developer • Traveler • Poet • Cook',
   description: 'Welcome to my personal portfolio. I am a Full Stack Developer who also loves traveling, writing poetry, and cooking.',
 };
-
-// Revalidate every 60 seconds
-export const revalidate = 60;
 
 const getPersonas = unstable_cache(
   async () => {

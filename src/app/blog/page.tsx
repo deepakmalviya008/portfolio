@@ -1,3 +1,5 @@
+// Revalidate every 60 seconds
+export const revalidate = 60;
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { Header } from '@/components/layout/header';
@@ -12,9 +14,6 @@ export const metadata: Metadata = {
   title: 'Blog',
   description: 'Read articles, stories, poems, and recipes from Deepak Malviya.',
 };
-
-// Revalidate every 60 seconds
-export const revalidate = 60;
 
 const personaConfig = {
   developer: { icon: Code2, color: 'bg-blue-500/10 text-blue-500', label: 'Developer' },
