@@ -83,6 +83,10 @@ const config: Config = {
         hindi: ['Noto Sans Devanagari', 'sans-serif'],
       },
       keyframes: {
+        'gradient': {
+          '0%, 100%': { backgroundPosition: '0% 50%' },
+          '50%': { backgroundPosition: '100% 50%' },
+        },
         'accordion-down': {
           from: { height: '0' },
           to: { height: 'var(--radix-accordion-content-height)' },
@@ -105,6 +109,7 @@ const config: Config = {
         },
       },
       animation: {
+        'gradient': 'gradient 3s ease infinite',
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
         'fade-in': 'fade-in 0.5s ease-out',

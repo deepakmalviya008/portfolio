@@ -31,14 +31,14 @@ export function PoetHero() {
           </h1>
 
           <p className="text-xl text-muted-foreground mb-8">
-            Expressing the depths of human emotion through Hindi poetry. 
+            Expressing the depths of human emotion through Hindi poetry.
             Where feelings find their voice and hearts speak in verses.
           </p>
 
           <div className="p-8 rounded-2xl bg-poet/5 border border-poet/20">
             <p className="text-2xl md:text-3xl text-hindi leading-relaxed text-foreground/90">
-              &ldquo;शब्दों में बसी है मेरी दुनिया,<br />
-              हर लफ़्ज़ में छुपी एक कहानी है।&rdquo;
+              &ldquo;यहां सबके हैं अपने दुःख,यहां सबकी कहानी हैं,<br />
+              तुम्हें अपनी सुनानी हैं, हमें अपनी सुनानी हैं ।&rdquo;
             </p>
             <p className="mt-4 text-muted-foreground italic">
               &ldquo;My world resides in words,<br />

@@ -1,135 +1,114 @@
 'use client';
 
-import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { Code2, Plane, Feather, ChefHat, ArrowRight } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { motion } from 'framer-motion';
+import { Code2, Plane, Feather, ChefHat, ArrowUpRight } from 'lucide-react';
 
-const personas = [
-  {
-    slug: 'developer',
-    name: 'Developer',
+const personaConfig = {
+  developer: {
     icon: Code2,
-    tagline: 'Building digital solutions',
-    description: 'Full-stack engineer crafting scalable web applications with modern technologies. From concept to deployment.',
-    color: 'developer',
-    gradient: 'from-developer/20 to-developer/5',
+    gradient: 'from-blue-500 to-cyan-400',
+    hoverGradient: 'group-hover:from-blue-600 group-hover:to-cyan-500',
+    bgPattern: 'radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.1) 0%, transparent 50%)',
+    description: 'Building scalable web applications with modern technologies',
   },
-  {
-    slug: 'traveler',
-    name: 'Traveler',
+  traveler: {
     icon: Plane,
-    tagline: 'Exploring the world',
-    description: 'Wanderer at heart, collecting stories and sunsets from every corner of the globe. Adventure awaits.',
-    color: 'traveler',
-    gradient: 'from-traveler/20 to-traveler/5',
+    gradient: 'from-orange-500 to-amber-400',
+    hoverGradient: 'group-hover:from-orange-600 group-hover:to-amber-500',
+    bgPattern: 'radial-gradient(circle at 80% 20%, rgba(249, 115, 22, 0.1) 0%, transparent 50%)',
+    description: 'Exploring the world, one destination at a time',
   },
-  {
-    slug: 'poet',
-    name: 'Poet',
-    nameHindi: 'शायर',
+  poet: {
     icon: Feather,
-    tagline: 'Weaving words into emotions',
-    description: 'Expressing the depths of human emotion through Hindi poetry. Where feelings find their voice.',
-    color: 'poet',
-    gradient: 'from-poet/20 to-poet/5',
+    gradient: 'from-purple-500 to-pink-400',
+    hoverGradient: 'group-hover:from-purple-600 group-hover:to-pink-500',
+    bgPattern: 'radial-gradient(circle at 50% 50%, rgba(168, 85, 247, 0.1) 0%, transparent 50%)',
+    description: 'Weaving emotions into words, in Hindi and English',
   },
-  {
-    slug: 'cook',
-    name: 'Cook',
+  cook: {
     icon: ChefHat,
-    tagline: 'Creating flavors',
-    description: 'Passionate about transforming simple ingredients into memorable culinary experiences. Taste the love.',
-    color: 'cook',
-    gradient: 'from-cook/20 to-cook/5',
-  },
-];
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.15 },
+    gradient: 'from-amber-500 to-orange-400',
+    hoverGradient: 'group-hover:from-amber-600 group-hover:to-orange-500',
+    bgPattern: 'radial-gradient(circle at 80% 80%, rgba(245, 158, 11, 0.1) 0%, transparent 50%)',
+    description: 'Creating culinary experiences that bring joy',
   },
 };
 
-const cardVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5, ease: 'easeOut' },
-  },
-};
+interface Persona {
+  id: string;
+  slug: string;
+  name: string;
+  tagline?: string | null;
+}
 
-export function PersonaCards() {
+export function PersonaCards({ personas }: { personas: Persona[] }) {
   return (
-    <section id="personas" className="section-padding">
-      <div className="container-custom">
+    <section className="py-20 md:py-28 relative overflow-hidden">
+      {/* Background */}
+      <div className="absolute inset-0 bg-muted/30" />
+      
+      <div className="container-custom relative">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-12 md:mb-16"
+          className="text-center mb-16"
         >
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Many Hats, One Journey</h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Life is too short for just one passion. Explore the different facets that make up who I am.
+          <span className="text-primary font-medium mb-2 block">What I Do</span>
+          <h2 className="text-3xl md:text-5xl font-bold mb-4">
+            My Creative <span className="text-primary">Personas</span>
+          </h2>
+          <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
+            I believe in living a multifaceted life. Here are the different dimensions I explore.
           </p>
         </motion.div>
 
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8"
-        >
-          {personas.map((persona) => (
-            <motion.div key={persona.slug} variants={cardVariants}>
-              <Link href={`/personas/${persona.slug}`} className="block group">
-                <div className={cn(
-                  "relative h-full p-6 md:p-8 rounded-2xl border bg-gradient-to-br transition-all duration-300",
-                  `${persona.gradient}`,
-                  "hover:shadow-xl hover:-translate-y-1 hover:border-transparent"
-                )}>
-                  <div className="flex items-start justify-between mb-4">
-                    <div className={cn(
-                      "w-14 h-14 rounded-xl flex items-center justify-center",
-                      `bg-${persona.color}/10`
-                    )}>
-                      <persona.icon className={cn("w-7 h-7", `text-${persona.color}`)} />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {personas.map((persona, index) => {
+            const config = personaConfig[persona.slug as keyof typeof personaConfig];
+            if (!config) return null;
+            
+            const Icon = config.icon;
+
+            return (
+              <motion.div
+                key={persona.id}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+              >
+                <Link href={`/personas/${persona.slug}`} className="group block h-full">
+                  <div 
+                    className="relative h-full p-6 rounded-2xl bg-card border border-border/50 overflow-hidden transition-all duration-500 hover:border-primary/30 hover:shadow-2xl hover:shadow-primary/5 hover:-translate-y-2"
+                    style={{ backgroundImage: config.bgPattern }}
+                  >
+                    {/* Gradient Overlay on Hover */}
+                    <div className={`absolute inset-0 bg-gradient-to-br ${config.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-500`} />
+                    
+                    {/* Icon */}
+                    <div className={`relative w-16 h-16 rounded-2xl bg-gradient-to-br ${config.gradient} ${config.hoverGradient} flex items-center justify-center mb-5 transition-all duration-500 group-hover:scale-110 group-hover:rotate-3`}>
+                      <Icon className="w-8 h-8 text-white" />
                     </div>
-                    <ArrowRight className="w-5 h-5 text-muted-foreground opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
+
+                    {/* Content */}
+                    <h3 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors flex items-center gap-2">
+                      {persona.name}
+                      <ArrowUpRight className="w-4 h-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
+                    </h3>
+                    <p className="text-muted-foreground text-sm leading-relaxed">
+                      {persona.tagline || config.description}
+                    </p>
+
+                    {/* Bottom Accent */}
+                    <div className={`absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r ${config.gradient} transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left`} />
                   </div>
-
-                  <h3 className="text-2xl font-bold mb-1">
-                    {persona.name}
-                    {persona.nameHindi && (
-                      <span className="text-lg font-normal text-muted-foreground ml-2 text-hindi">
-                        ({persona.nameHindi})
-                      </span>
-                    )}
-                  </h3>
-                  
-                  <p className={cn("text-sm font-medium mb-3", `text-${persona.color}`)}>
-                    {persona.tagline}
-                  </p>
-                  
-                  <p className="text-muted-foreground">
-                    {persona.description}
-                  </p>
-
-                  <div className={cn(
-                    "absolute bottom-0 left-0 right-0 h-1 rounded-b-2xl opacity-0 group-hover:opacity-100 transition-opacity",
-                    `bg-${persona.color}`
-                  )} />
-                </div>
-              </Link>
-            </motion.div>
-          ))}
-        </motion.div>
+                </Link>
+              </motion.div>
+            );
+          })}
+        </div>
       </div>
     </section>
   );
