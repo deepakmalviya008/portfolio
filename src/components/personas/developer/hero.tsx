@@ -30,7 +30,7 @@ export function DeveloperHero() {
           </h1>
 
           <p className="text-xl text-muted-foreground mb-8 max-w-2xl">
-            Full-stack engineer passionate about creating scalable, user-centric web applications. 
+            Full-stack engineer passionate about creating scalable, user-centric web applications.
             From elegant frontends to robust backends, I bring ideas to life through code.
           </p>
 
@@ -48,7 +48,7 @@ export function DeveloperHero() {
               </a>
             </Button>
             <Button asChild variant="outline">
-              <a href="/resume.pdf" target="_blank">
+              <a href="#" target="_blank">
                 <FileText className="mr-2 w-5 h-5" />
                 Download Resume
               </a>

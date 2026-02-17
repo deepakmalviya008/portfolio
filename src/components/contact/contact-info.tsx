@@ -29,7 +29,7 @@ const socialLinks = [
   {
     icon: Twitter,
     label: 'Twitter',
-    href: '#',
+    href: 'https://x.com/deepakmalviya08',
   },
 ];
 

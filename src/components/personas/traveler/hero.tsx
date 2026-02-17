@@ -4,9 +4,9 @@ import { motion } from 'framer-motion';
 import { Plane, MapPin, Camera } from 'lucide-react';
 
 const stats = [
-  { label: 'Countries', value: '10+', icon: MapPin },
+  { label: 'Countries', value: '2+', icon: MapPin },
   { label: 'Cities', value: '25+', icon: MapPin },
-  { label: 'Photos', value: '1000+', icon: Camera },
+  { label: 'Photos', value: '10000+', icon: Camera },
 ];
 
 export function TravelerHero() {
@@ -35,7 +35,7 @@ export function TravelerHero() {
           </h1>
 
           <p className="text-xl text-muted-foreground mb-8 max-w-2xl">
-            Collecting moments, not things. Every journey teaches something new, 
+            Collecting moments, not things. Every journey teaches something new,
             every destination adds a chapter to my story.
           </p>
 

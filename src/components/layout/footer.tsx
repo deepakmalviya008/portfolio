@@ -5,7 +5,7 @@ import { Separator } from '@/components/ui/separator';
 const socialLinks = [
   { name: 'GitHub', href: 'https://github.com/deepakmalviya008', icon: Github },
   { name: 'LinkedIn', href: 'https://in.linkedin.com/in/deepak-malviya', icon: Linkedin },
-  { name: 'Twitter', href: '#', icon: Twitter },
+  { name: 'Twitter', href: 'https://x.com/deepakmalviya08', icon: Twitter },
   { name: 'Email', href: 'mailto:malviyadeepak921@gmail.com', icon: Mail },
 ];
 
@@ -40,8 +40,8 @@ export function Footer() {
               <span>Deepak Malviya</span>
             </Link>
             <p className="text-muted-foreground max-w-md mb-6">
-              Full Stack Developer, Explorer, Poet, and Culinary Enthusiast. 
-              Building digital solutions while crafting verses, exploring the world, 
+              Full Stack Developer, Explorer, Poet, and Culinary Enthusiast.
+              Building digital solutions while crafting verses, exploring the world,
               and creating flavors.
             </p>
             <div className="flex gap-4">

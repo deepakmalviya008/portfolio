@@ -426,8 +426,8 @@ export default async function HomePage() {
                     <div className="grid grid-cols-3 gap-3 md:gap-6">
                       {[
                         { value: '5+', label: 'Years Exp', icon: Briefcase, color: 'from-blue-500 to-cyan-500' },
-                        { value: '50+', label: 'Projects', icon: Rocket, color: 'from-purple-500 to-pink-500' },
-                        { value: '30+', label: 'Clients', icon: Users, color: 'from-amber-500 to-orange-500' },
+                        { value: '20+', label: 'Projects', icon: Rocket, color: 'from-purple-500 to-pink-500' },
+                        { value: '10+', label: 'Clients', icon: Users, color: 'from-amber-500 to-orange-500' },
                       ].map((stat) => (
                         <div key={stat.label} className="group p-3 md:p-4 bg-muted/50 rounded-xl md:rounded-2xl hover:bg-muted transition-colors cursor-default">
                           <div className={`w-8 h-8 md:w-10 md:h-10 mx-auto mb-2 rounded-lg bg-gradient-to-br ${stat.color} flex items-center justify-center`}>
