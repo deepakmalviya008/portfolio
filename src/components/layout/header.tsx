@@ -10,10 +10,10 @@ import { Button } from '@/components/ui/button';
 import { ThemeToggle } from '@/components/layout/theme-toggle';
 
 const personas = [
-  { name: 'Developer', slug: 'developer', icon: Code2, color: 'text-developer' },
-  { name: 'Traveler', slug: 'traveler', icon: Plane, color: 'text-traveler' },
-  { name: 'Poet', slug: 'poet', icon: Feather, color: 'text-poet' },
-  { name: 'Cook', slug: 'cook', icon: ChefHat, color: 'text-cook' },
+  { name: 'Developer', slug: 'developer', icon: Code2, color: 'text-blue-500' },
+  { name: 'Traveler', slug: 'traveler', icon: Plane, color: 'text-orange-500' },
+  { name: 'Poet', slug: 'poet', icon: Feather, color: 'text-purple-500' },
+  { name: 'Cook', slug: 'cook', icon: ChefHat, color: 'text-amber-500' },
 ];
 
 const navLinks = [
@@ -46,9 +46,9 @@ export function Header() {
     <header
       className={cn(
         'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
-        isScrolled
-          ? 'bg-background/80 backdrop-blur-lg border-b shadow-sm'
-          : 'bg-transparent'
+        isScrolled || isOpen
+          ? 'bg-background/95 backdrop-blur-lg border-b shadow-sm'
+          : 'bg-background/50 backdrop-blur-sm'
       )}
     >
       <nav className="container-custom">
@@ -163,7 +163,7 @@ export function Header() {
           </div>
         </div>
 
-        {/* Mobile Navigation */}
+        {/* Mobile Navigation - with solid background */}
         <AnimatePresence>
           {isOpen && (
             <motion.div
@@ -171,7 +171,7 @@ export function Header() {
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.3 }}
-              className="md:hidden overflow-hidden border-t"
+              className="md:hidden overflow-hidden border-t bg-background"
             >
               <div className="py-4 space-y-1">
                 {navLinks.map((link) => (
@@ -182,14 +182,14 @@ export function Header() {
                       'block px-4 py-3 rounded-md text-base font-medium transition-colors',
                       pathname === link.href
                         ? 'text-primary bg-primary/10'
-                        : 'text-muted-foreground hover:text-foreground hover:bg-accent'
+                        : 'text-foreground hover:text-primary hover:bg-accent'
                     )}
                   >
                     {link.name}
                   </Link>
                 ))}
 
-                <div className="pt-2 pb-1 px-4 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                <div className="pt-4 pb-2 px-4 text-xs font-semibold text-muted-foreground uppercase tracking-wider border-t mt-2">
                   Personas
                 </div>
 
@@ -201,7 +201,7 @@ export function Header() {
                       'flex items-center gap-3 px-4 py-3 rounded-md text-base font-medium transition-colors',
                       pathname === `/personas/${persona.slug}`
                         ? 'text-primary bg-primary/10'
-                        : 'text-muted-foreground hover:text-foreground hover:bg-accent'
+                        : 'text-foreground hover:text-primary hover:bg-accent'
                     )}
                   >
                     <persona.icon className={cn('w-5 h-5', persona.color)} />

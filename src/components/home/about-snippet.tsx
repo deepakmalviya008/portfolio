@@ -1,8 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { useRef } from 'react';
+import { motion } from 'framer-motion';
 import { ArrowRight, Code, Globe, Heart, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -14,16 +13,8 @@ const highlights = [
 ];
 
 export function AboutSnippet() {
-  const ref = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ['start end', 'end start'],
-  });
-
-  const y = useTransform(scrollYProgress, [0, 1], [100, -100]);
-
   return (
-    <section ref={ref} className="py-20 md:py-28 overflow-hidden">
+    <section className="py-20 md:py-28 overflow-hidden">
       <div className="container-custom">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           {/* Visual Side */}
@@ -35,14 +26,8 @@ export function AboutSnippet() {
           >
             <div className="relative max-w-md mx-auto lg:mx-0">
               {/* Background Shapes */}
-              <motion.div
-                style={{ y }}
-                className="absolute -top-10 -left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl"
-              />
-              <motion.div
-                style={{ y: useTransform(scrollYProgress, [0, 1], [-50, 50]) }}
-                className="absolute -bottom-10 -right-10 w-72 h-72 bg-purple-500/10 rounded-full blur-3xl"
-              />
+              <div className="absolute -top-10 -left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl" />
+              <div className="absolute -bottom-10 -right-10 w-72 h-72 bg-purple-500/10 rounded-full blur-3xl" />
 
               {/* Main Image Card */}
               <div className="relative bg-gradient-to-br from-card to-card/50 border rounded-3xl p-8 backdrop-blur-sm">
@@ -109,16 +94,16 @@ export function AboutSnippet() {
               A developer who believes in{' '}
               <span className="text-primary">living fully</span>
             </h2>
-
+            
             <div className="space-y-4 text-muted-foreground text-lg mb-8">
               <p>
-                I&apos;m Deepak, a Full Stack Developer from India with a passion
+                I&apos;m Deepak, a Full Stack Developer from India with a passion 
                 for building elegant digital solutions. But there&apos;s more to me than just code.
               </p>
               <p>
-                I express emotions through <span className="text-foreground font-medium">Hindi poetry</span>,
-                explore the world as a <span className="text-foreground font-medium">traveler</span>,
-                and create magic in the <span className="text-foreground font-medium">kitchen</span>.
+                I express emotions through <span className="text-foreground font-medium">Hindi poetry</span>, 
+                explore the world as a <span className="text-foreground font-medium">traveler</span>, 
+                and create magic in the <span className="text-foreground font-medium">kitchen</span>. 
                 Each passion enriches the others.
               </p>
             </div>
